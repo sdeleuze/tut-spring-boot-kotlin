@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	val kotlinVersion = "1.3.21"
-	id("org.springframework.boot") version "2.1.3.RELEASE"
+	val kotlinVersion = "1.3.30"
+	id("org.springframework.boot") version "2.2.0.BUILD-SNAPSHOT"
 	id("org.jetbrains.kotlin.jvm") version kotlinVersion
 	id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
 	id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
@@ -26,6 +26,8 @@ allOpen {
 
 repositories {
 	mavenCentral()
+	maven("https://repo.spring.io/snapshot")
+	maven("https://repo.spring.io/milestone")
 }
 
 tasks.withType<Test> {
@@ -40,7 +42,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	runtimeOnly("org.springframework.boot:spring-boot-devtools")
-	runtimeOnly("com.h2database:h2")
+	runtimeOnly("com.h2database:h2:1.4.197") // https://github.com/spring-projects/spring-boot/issues/16512
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(module = "junit")
 		exclude(module = "mockito-core")
