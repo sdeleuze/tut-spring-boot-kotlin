@@ -2,13 +2,13 @@ package com.example.blog
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
+import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBodyList
-import reactor.core.publisher.Flux
 
 @WebFluxTest
 class HttpControllersTests(@Autowired val client: WebTestClient) {
@@ -20,7 +20,10 @@ class HttpControllersTests(@Autowired val client: WebTestClient) {
 	fun `List articles`() {
 		val spring5Article = Article("Spring Framework 5.0 goes GA", "Dear Spring community ...", "Juergen Hoeller")
 		val spring43Article = Article("Spring Framework 4.3 goes GA", "Dear Spring community ...", "Juergen Hoeller")
-		every { articleRepository.findAllByOrderByAddedAtDesc() } returns Flux.just(spring5Article, spring43Article)
+		every { articleRepository.findAll() } returns flow {
+			emit(spring5Article)
+			emit(spring43Article)
+		}
 		client.get().uri("/api/article/").accept(MediaType.APPLICATION_JSON).exchange()
 				.expectStatus().isOk
 				.expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)

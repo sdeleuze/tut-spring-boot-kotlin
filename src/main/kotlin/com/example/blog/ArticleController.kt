@@ -1,17 +1,16 @@
 package com.example.blog
 
 import org.springframework.web.bind.annotation.*
-import reactor.core.publisher.Mono
 
 @RestController
 @RequestMapping("/api/article")
 class ArticleController(private val repository: ArticleRepository) {
 
 	@GetMapping("/")
-	fun findAll() = repository.findAllByOrderByAddedAtDesc()
+	fun findAll() = repository.findAll()
 
 	@GetMapping("/{slug}")
-	fun findOne(@PathVariable slug: String) =
-			repository.findBySlug(slug).switchIfEmpty(Mono.error(IllegalArgumentException("Wrong article slug provided")))
+	suspend fun findOne(@PathVariable slug: String) =
+			repository.findBySlug(slug) ?: throw IllegalArgumentException("Wrong article slug provided")
 
 }

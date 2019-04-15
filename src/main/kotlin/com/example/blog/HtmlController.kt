@@ -1,30 +1,36 @@
 package com.example.blog
 
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.reactive.result.view.Rendering
-import reactor.core.publisher.Mono
 
 @Controller
 class HtmlController(private val repository: ArticleRepository,
 					 private val properties: BlogProperties) {
 
 	@GetMapping("/")
-	fun blog(model: Model) =
-			repository.findAllByOrderByAddedAtDesc().map { it.render() }.collectList().map {
-				Rendering.view("blog").modelAttribute("title", properties.title)
-						.modelAttribute("banner", properties.banner)
-						.modelAttribute("articles", it)
-						.build()
-			}
+	suspend fun blog(model: Model): String {
+		val articles = repository.findAll().map { it.render() }.toList()
+		model["title"] = properties.title
+		model["banner"] = properties.banner
+		model["articles"] = articles
+		return "blog"
+	}
 
 	@GetMapping("/article/{slug}")
-	fun article(@PathVariable slug: String) =
-			repository.findBySlug(slug)
-				.switchIfEmpty(Mono.error(IllegalArgumentException("Wrong article slug provided")))
-				.map { Rendering.view("article").modelAttribute("title", it.title).modelAttribute("article", it.render()).build() }
+	suspend fun article(@PathVariable slug: String, model: Model): String {
+		val article = repository
+				.findBySlug(slug)
+				?.render()
+				?: throw IllegalArgumentException("Wrong article slug provided")
+		model["title"] = article.title
+		model["article"] = article
+		return "article"
+	}
 
 	fun Article.render() = RenderedArticle(
 			slug,
