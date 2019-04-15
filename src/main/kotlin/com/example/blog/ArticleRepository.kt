@@ -4,7 +4,6 @@ import org.springframework.data.r2dbc.function.DatabaseClient
 import org.springframework.data.r2dbc.function.asType
 import org.springframework.data.r2dbc.function.into
 import org.springframework.stereotype.Repository
-import reactor.core.publisher.Mono
 
 @Repository
 class ArticleRepository(private val client: DatabaseClient) {
