@@ -13,24 +13,24 @@ class ArticleRepository(private val client: DatabaseClient) {
 
 	suspend fun findBySlug(slug: String) =
 		client.execute()
-				.sql("SELECT * FROM Articles WHERE slug = \$1")
+				.sql("SELECT * FROM articles WHERE slug = \$1")
 				.bind(0, slug).asType<Article>()
 				.fetch().awaitOne()
 
 	fun findAll() =
 		client.execute()
-				.sql("SELECT * FROM Articles ORDER BY added_at DESC")
+				.sql("SELECT * FROM articles ORDER BY added_at DESC")
 				.asType<Article>()
 				.fetch().flow()
 
 	suspend fun save(article: Article) =
-			client.insert().into<Article>().table("Articles").using(article).await()
+			client.insert().into<Article>().table("articles").using(article).await()
 
 	suspend fun deleteAll() =
-			client.execute().sql("DELETE FROM Articles").await()
+			client.execute().sql("DELETE FROM articles").await()
 
 	suspend fun init() {
-		client.execute().sql("CREATE TABLE IF NOT EXISTS Articles (slug VARCHAR PRIMARY KEY, title VARCHAR, headline VARCHAR, content VARCHAR, author VARCHAR, added_at TIMESTAMP);").await()
+		client.execute().sql("CREATE TABLE IF NOT EXISTS articles (slug VARCHAR PRIMARY KEY, title VARCHAR, headline VARCHAR, content VARCHAR, author VARCHAR, added_at TIMESTAMP);").await()
 		deleteAll()
 		save(Article(
 			title = "Going Reactive with Spring, Coroutines and Kotlin Flow",
