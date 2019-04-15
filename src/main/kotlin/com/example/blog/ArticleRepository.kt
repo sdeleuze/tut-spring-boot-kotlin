@@ -15,7 +15,6 @@ class ArticleRepository(private val client: DatabaseClient) {
 				.bind(0, slug).asType<Article>()
 				.fetch().one()
 
-
 	fun findAllByOrderByAddedAtDesc() =
 		client.execute()
 				.sql("SELECT * FROM Articles ORDER BY added_at DESC")
