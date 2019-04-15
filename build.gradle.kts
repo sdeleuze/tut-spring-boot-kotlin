@@ -35,20 +35,21 @@ tasks.withType<Test> {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.data:spring-data-r2dbc:1.0.0.BUILD-SNAPSHOT")
+	implementation("io.r2dbc:r2dbc-postgresql:1.0.0.BUILD-SNAPSHOT")
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.springframework.boot:spring-boot-starter-mustache")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	runtimeOnly("org.springframework.boot:spring-boot-devtools")
-	runtimeOnly("com.h2database:h2:1.4.197") // https://github.com/spring-projects/spring-boot/issues/16512
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(module = "junit")
 		exclude(module = "mockito-core")
 	}
 	testImplementation("org.junit.jupiter:junit-jupiter-api")
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("com.ninja-squad:springmockk:1.1.1")
-	implementation("io.mockk:mockk:1.9.1")
+	testImplementation("io.mockk:mockk:1.9.1")
 }

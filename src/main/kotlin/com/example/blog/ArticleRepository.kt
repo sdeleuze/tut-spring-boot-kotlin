@@ -1,0 +1,45 @@
+package com.example.blog
+
+import org.springframework.data.r2dbc.function.DatabaseClient
+import org.springframework.data.r2dbc.function.asType
+import org.springframework.data.r2dbc.function.into
+import org.springframework.stereotype.Repository
+import reactor.core.publisher.Mono
+
+@Repository
+class ArticleRepository(private val client: DatabaseClient) {
+
+	fun findBySlug(slug: String) =
+		client.execute()
+				.sql("SELECT * FROM Articles WHERE slug = \$1")
+				.bind(0, slug).asType<Article>()
+				.fetch().one()
+
+
+	fun findAllByOrderByAddedAtDesc() =
+		client.execute()
+				.sql("SELECT * FROM Articles ORDER BY added_at DESC")
+				.asType<Article>()
+				.fetch().all()
+
+	fun save(article: Article) =
+			client.insert().into<Article>().table("Articles").using(article).then()
+
+	fun deleteAll() =
+			client.execute().sql("DELETE FROM Articles").fetch().one().then()
+
+	fun init() = client.execute().sql("CREATE TABLE IF NOT EXISTS Articles (slug VARCHAR PRIMARY KEY, title VARCHAR, headline VARCHAR, content VARCHAR, author VARCHAR, added_at TIMESTAMP);").then()
+			.then(deleteAll())
+			.then(save(Article(
+					title = "Going Reactive with Spring, Coroutines and Kotlin Flow",
+					headline = "Lorem ipsum",
+					content = "dolor sit amet",
+					author = "Sébastien")))
+			.then(save(Article(
+					title = "Spring Framework 5.2.0.M1 available now",
+					headline = "Lorem ipsum",
+					content = "dolor sit amet",
+					author = "Brian"
+			)))
+
+}

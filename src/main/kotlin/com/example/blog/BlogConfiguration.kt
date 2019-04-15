@@ -1,28 +1,28 @@
 package com.example.blog
 
+import io.r2dbc.postgresql.PostgresqlConnectionConfiguration
+import io.r2dbc.postgresql.PostgresqlConnectionFactory
 import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.data.r2dbc.function.DatabaseClient
 
 @Configuration
 class BlogConfiguration {
 
-    @Bean
-    fun databaseInitializer(userRepository: UserRepository,
-							articleRepository: ArticleRepository) = ApplicationRunner {
+	@Bean
+	fun databaseClient(): DatabaseClient {
+		val configuration = PostgresqlConnectionConfiguration
+				.builder()
+				.host("localhost")
+				.username("postgres")
+				.password("")
+				.build()
+		return DatabaseClient.builder().connectionFactory(PostgresqlConnectionFactory(configuration)).build()
+	}
 
-        val smaldini = userRepository.save(User("smaldini", "Stéphane", "Maldini"))
-        articleRepository.save(Article(
-				title = "Reactor Bismuth is out",
-				headline = "Lorem ipsum",
-				content = "dolor sit amet",
-				author = smaldini
-		))
-        articleRepository.save(Article(
-				title = "Reactor Aluminium has landed",
-				headline = "Lorem ipsum",
-				content = "dolor sit amet",
-				author = smaldini
-		))
-    }
+	@Bean
+	fun databaseInitializer(articleRepository: ArticleRepository) = ApplicationRunner {
+		articleRepository.init().block()
+	}
 }
