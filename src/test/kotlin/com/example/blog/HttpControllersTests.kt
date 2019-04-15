@@ -14,35 +14,21 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 class HttpControllersTests(@Autowired val mockMvc: MockMvc) {
 
 	@MockkBean
-	lateinit var userRepository: UserRepository
-
-	@MockkBean
 	lateinit var articleRepository: ArticleRepository
 
 	@Test
 	fun `List articles`() {
-		val juergen = User("springjuergen", "Juergen", "Hoeller")
-		val spring5Article = Article("Spring Framework 5.0 goes GA", "Dear Spring community ...", "Lorem ipsum", juergen)
-		val spring43Article = Article("Spring Framework 4.3 goes GA", "Dear Spring community ...", "Lorem ipsum", juergen)
+		val author = "Juergen Hoeller"
+		val spring5Article = Article("Spring Framework 5.0 goes GA", "Dear Spring community ...", "Lorem ipsum", author)
+		val spring43Article = Article("Spring Framework 4.3 goes GA", "Dear Spring community ...", "Lorem ipsum", author)
 		every { articleRepository.findAllByOrderByAddedAtDesc() } returns listOf(spring5Article, spring43Article)
 		mockMvc.perform(get("/api/article/").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk)
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(jsonPath("\$.[0].author.login").value(juergen.login))
+				.andExpect(jsonPath("\$.[0].author").value(author))
 				.andExpect(jsonPath("\$.[0].slug").value(spring5Article.slug))
-				.andExpect(jsonPath("\$.[1].author.login").value(juergen.login))
+				.andExpect(jsonPath("\$.[1].author").value(author))
 				.andExpect(jsonPath("\$.[1].slug").value(spring43Article.slug))
 	}
 
-	@Test
-	fun `List users`() {
-		val juergen = User("springjuergen", "Juergen", "Hoeller")
-		val smaldini = User("smaldini", "Stéphane", "Maldini")
-		every { userRepository.findAll() } returns listOf(juergen, smaldini)
-		mockMvc.perform(get("/api/user/").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk)
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(jsonPath("\$.[0].login").value(juergen.login))
-				.andExpect(jsonPath("\$.[1].login").value(smaldini.login))
-	}
 }

@@ -7,22 +7,20 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class BlogConfiguration {
 
-    @Bean
-    fun databaseInitializer(userRepository: UserRepository,
-							articleRepository: ArticleRepository) = ApplicationRunner {
+	@Bean
+	fun databaseInitializer(articleRepository: ArticleRepository) = ApplicationRunner {
 
-        val smaldini = userRepository.save(User("smaldini", "Stéphane", "Maldini"))
-        articleRepository.save(Article(
-				title = "Reactor Bismuth is out",
+		articleRepository.save(Article(
+				title = "Going Reactive with Spring, Coroutines and Kotlin Flow",
 				headline = "Lorem ipsum",
 				content = "dolor sit amet",
-				author = smaldini
+				author = "Sébastien"
 		))
         articleRepository.save(Article(
-				title = "Reactor Aluminium has landed",
+				title = "Spring Framework 5.2.0.M1 available now",
 				headline = "Lorem ipsum",
 				content = "dolor sit amet",
-				author = smaldini
+				author = "Brian"
 		))
     }
 }

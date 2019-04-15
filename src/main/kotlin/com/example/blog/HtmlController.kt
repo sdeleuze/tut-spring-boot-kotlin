@@ -41,9 +41,9 @@ class HtmlController(private val repository: ArticleRepository,
 	data class RenderedArticle(
 			val slug: String,
 			val title: String,
-			val headline: String,
+			val headline: String?,
 			val content: String,
-			val author: User,
+			val author: String,
 			val addedAt: String)
 
 }
