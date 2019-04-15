@@ -1,15 +1,23 @@
 package com.example.blog
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.context.SpringBootTest.*
+import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class IntegrationTests(@Autowired val client: WebTestClient) {
+class IntegrationTests {
+
+	private val client = WebTestClient.bindToServer().baseUrl("http://localhost:8080").build()
+
+	private lateinit var context: ConfigurableApplicationContext
+
+	@BeforeAll
+	fun setup() {
+		context = app.run()
+	}
 
 	@Test
 	fun `Assert blog page title, content and status code`() {
@@ -24,6 +32,11 @@ class IntegrationTests(@Autowired val client: WebTestClient) {
 		client.get().uri("/article/${title.toSlug()}").exchange().expectStatus().isOk.expectBody<String>().consumeWith {
 			assertThat(it.responseBody).contains(title, "Lorem ipsum", "dolor sit amet")
 		}
+	}
+
+	@AfterAll
+	fun teardown() {
+		context.close()
 	}
 
 }
