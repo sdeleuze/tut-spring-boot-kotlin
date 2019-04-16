@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	val kotlinVersion = "1.3.30"
-	id("org.springframework.boot") version "2.2.0.BUILD-SNAPSHOT"
+	id("org.springframework.boot") version "2.2.0.M2"
 	id("org.jetbrains.kotlin.jvm") version kotlinVersion
 	id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
 	id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
