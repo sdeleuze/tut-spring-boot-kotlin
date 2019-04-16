@@ -41,7 +41,6 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	runtimeOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2:1.4.197") // https://github.com/spring-projects/spring-boot/issues/16512
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(module = "junit")
