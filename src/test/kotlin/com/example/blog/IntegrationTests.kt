@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest.*
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 class IntegrationTests(@Autowired val client: WebTestClient) {
 
 	@Test
