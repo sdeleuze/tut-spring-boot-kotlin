@@ -9,6 +9,7 @@ import org.springframework.data.r2dbc.function.flow
 import org.springframework.data.r2dbc.function.into
 import org.springframework.stereotype.Repository
 
+@Suppress("EXPERIMENTAL_API_USAGE")
 @Repository
 class ArticleRepository(private val client: DatabaseClient) {
 
