@@ -11,6 +11,15 @@
 
 		{{article.content}}
 	</div>
+
+	<div class="article-comments">
+		<h2>Comments</h2>
+		<ul>
+		{{#article.comments}}
+			<li><b>By</b> {{author}}<p>{{content}}</p></li>
+		{{/article.comments}}
+		</ul>
+	</div>
 </section>
 
 {{> footer}}
