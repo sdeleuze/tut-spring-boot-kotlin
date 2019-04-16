@@ -5,8 +5,6 @@ plugins {
 	id("org.springframework.boot") version "2.2.0.M2"
 	id("org.jetbrains.kotlin.jvm") version kotlinVersion
 	id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
-	id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
-	id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
 	id("io.spring.dependency-management") version "1.0.7.RELEASE"
 }
 
@@ -18,10 +16,6 @@ tasks.withType<KotlinCompile> {
 		jvmTarget = "1.8"
 		freeCompilerArgs = listOf("-Xjsr305=strict")
 	}
-}
-
-allOpen {
-	annotation("javax.persistence.Entity")
 }
 
 repositories {
