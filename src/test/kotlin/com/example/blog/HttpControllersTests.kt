@@ -5,12 +5,14 @@ import io.mockk.every
 import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureWebClient
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBodyList
 
 @WebFluxTest
+@AutoConfigureWebClient
 class HttpControllersTests(@Autowired val client: WebTestClient) {
 
 	@MockkBean
