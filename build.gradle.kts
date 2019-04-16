@@ -18,8 +18,8 @@ tasks.withType<KotlinCompile> {
 }
 
 repositories {
+	mavenLocal()
 	mavenCentral()
-	maven("https://repo.spring.io/snapshot")
 	maven("https://repo.spring.io/milestone")
 }
 
