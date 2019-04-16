@@ -23,7 +23,8 @@ class HttpControllersTests {
 	fun setup() {
 		val app = reactiveWebApplication {
 			configurationProperties<BlogProperties>("blog")
-			enable(webConfig)
+			enable(webServerConfig)
+			enable(webClientConfig)
 			beans {
 				bean {
 					val articleRepository = mockk<ArticleRepository>()

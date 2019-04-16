@@ -6,6 +6,7 @@ import org.springframework.fu.kofu.configuration
 import org.springframework.fu.kofu.r2dbc.r2dbcPostgresql
 import org.springframework.fu.kofu.reactiveWebApplication
 import org.springframework.fu.kofu.webflux.mustache
+import org.springframework.fu.kofu.webflux.webClient
 import org.springframework.fu.kofu.webflux.webFlux
 
 val dataConfig = configuration {
@@ -20,10 +21,11 @@ val dataConfig = configuration {
 	}
 }
 
-val webConfig = configuration {
+val webServerConfig = configuration {
 	beans {
 		bean<ArticleHandler>()
 		bean<HtmlHandler>()
+		bean<CommentHandler>()
 		bean(::blogRouter)
 	}
 	webFlux {
@@ -35,10 +37,20 @@ val webConfig = configuration {
 	}
 }
 
+val webClientConfig = configuration {
+	webClient {
+		codecs {
+			string()
+			jackson()
+		}
+	}
+}
+
 val app = reactiveWebApplication {
 	configurationProperties<BlogProperties>("blog")
 	enable(dataConfig)
-	enable(webConfig)
+	enable(webServerConfig)
+	enable(webClientConfig)
 }
 
 fun main(args: Array<String>) {
