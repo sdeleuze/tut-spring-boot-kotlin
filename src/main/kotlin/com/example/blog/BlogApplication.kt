@@ -20,7 +20,7 @@ val dataConfig = configuration {
 	}
 }
 
-val webConfig = configuration {
+val webServerConfig = configuration {
 	beans {
 		bean<ArticleHandler>()
 		bean<HtmlHandler>()
@@ -38,7 +38,7 @@ val webConfig = configuration {
 val app = reactiveWebApplication {
 	configurationProperties<BlogProperties>("blog")
 	enable(dataConfig)
-	enable(webConfig)
+	enable(webServerConfig)
 }
 
 fun main(args: Array<String>) {
