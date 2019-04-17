@@ -17,7 +17,7 @@ class HtmlController(private val repository: ArticleRepository,
 					 private val properties: BlogProperties,
 					 clientBuilder: WebClient.Builder) {
 
-	private val client = clientBuilder.baseUrl("http://localhost:8080/api/comment/").build()
+	private val client = clientBuilder.baseUrl("http://localhost:8080").build()
 
 	@GetMapping("/")
 	suspend fun blog(model: Model): String {
@@ -40,7 +40,7 @@ class HtmlController(private val repository: ArticleRepository,
 	}
 
 	suspend fun Article.render(): RenderedArticle {
-		val response = client.get().uri("$slug").accept(APPLICATION_JSON).awaitExchange()
+		val response = client.get().uri("/api/comment/$slug").accept(APPLICATION_JSON).awaitExchange()
 		val comments = response.awaitBody<List<Comment>>()
 		return RenderedArticle(
 				slug,
