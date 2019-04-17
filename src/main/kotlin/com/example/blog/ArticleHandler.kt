@@ -11,6 +11,4 @@ class ArticleHandler(private val repository: ArticleRepository) {
 
 	suspend fun findOne(request: ServerRequest) =
 			ok().bodyAndAwait(repository.findBySlug(request.pathVariable("slug")) ?: throw IllegalArgumentException("Wrong article slug provided"))
-
-
 }
