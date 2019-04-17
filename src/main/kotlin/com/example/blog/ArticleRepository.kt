@@ -3,7 +3,7 @@ package com.example.blog
 import org.springframework.data.r2dbc.function.DatabaseClient
 import org.springframework.data.r2dbc.function.asType
 import org.springframework.data.r2dbc.function.await
-import org.springframework.data.r2dbc.function.awaitOne
+import org.springframework.data.r2dbc.function.awaitOneOrNull
 import org.springframework.data.r2dbc.function.flow
 import org.springframework.data.r2dbc.function.into
 import org.springframework.stereotype.Repository
@@ -15,7 +15,7 @@ class ArticleRepository(private val client: DatabaseClient) {
 		client.execute()
 				.sql("SELECT * FROM articles WHERE slug = \$1")
 				.bind(0, slug).asType<Article>()
-				.fetch().awaitOne()
+				.fetch().awaitOneOrNull()
 
 	fun findAll() =
 		client.execute()
