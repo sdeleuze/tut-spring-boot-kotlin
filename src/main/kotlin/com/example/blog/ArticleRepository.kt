@@ -36,10 +36,10 @@ class ArticleRepository(private val client: DatabaseClient) {
 			content = "dolor sit amet",
 			author = "Sébastien"))
 		save(Article(
-				title = "Spring Framework 5.2.0.M1 available now",
-				headline = "Lorem ipsum",
-				content = "dolor sit amet",
-				author = "Brian"))
+			title = "Spring Framework 5.2.0.M1 available now",
+			headline = "Lorem ipsum",
+			content = "dolor sit amet",
+			author = "Brian"))
 	}
 
 }
