@@ -20,7 +20,7 @@ class HtmlHandler(private val repository: ArticleRepository,
 				  private val properties: BlogProperties,
 				  clientBuilder: WebClient.Builder) {
 
-	private val client = clientBuilder.baseUrl("http://localhost:8080/api/comment/").build()
+	private val client = clientBuilder.baseUrl("http://localhost:8080").build()
 
 	suspend fun blog(request: ServerRequest): ServerResponse {
 		val articles = repository.findAll().map { it.render() }.toList()
@@ -43,7 +43,7 @@ class HtmlHandler(private val repository: ArticleRepository,
 	}
 
 	suspend fun Article.render(): RenderedArticle {
-		val response = client.get().uri("$slug").accept(APPLICATION_JSON).awaitExchange()
+		val response = client.get().uri("/api/comment/$slug").accept(APPLICATION_JSON).awaitExchange()
 		val comments = response.awaitBody<List<Comment>>()
 		return RenderedArticle(
 				slug,
