@@ -15,7 +15,7 @@ class HtmlController(private val repository: ArticleRepository,
 					 private val properties: BlogProperties,
 					 clientBuilder: WebClient.Builder) {
 
-	private val client = clientBuilder.baseUrl("http://localhost:8080/api/comment/").build()
+	private val client = clientBuilder.baseUrl("http://localhost:8080").build()
 
 	@GetMapping("/")
 	fun blog(model: Model) =
@@ -34,7 +34,7 @@ class HtmlController(private val repository: ArticleRepository,
 					.map { Rendering.view("article").modelAttribute("title", it.title).modelAttribute("article", it).build() }
 
 	fun Article.render() =
-		client.get().uri("$slug").accept(APPLICATION_JSON).exchange().flatMap {
+		client.get().uri("/api/comment/$slug").accept(APPLICATION_JSON).exchange().flatMap {
 			it.bodyToMono<List<Comment>>().map { comments -> RenderedArticle(
 					slug,
 					title,
