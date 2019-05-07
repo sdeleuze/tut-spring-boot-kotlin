@@ -26,7 +26,7 @@ class HttpControllersTests(@Autowired val mockMvc: MockMvc) {
 			accept(MediaType.APPLICATION_JSON)
 		}.andExpect {
 			status().isOk
-			content().contentType(MediaType.APPLICATION_JSON_UTF8)
+			content().contentType(MediaType.APPLICATION_JSON)
 			jsonPath("\$.[0].author").value(author)
 			jsonPath("\$.[0].slug").value(spring5Article.slug)
 			jsonPath("\$.[1].author").value(author)

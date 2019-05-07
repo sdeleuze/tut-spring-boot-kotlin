@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	val kotlinVersion = "1.3.30"
-	id("org.springframework.boot") version "2.2.0.M2"
+	val kotlinVersion = "1.3.31"
+	id("org.springframework.boot") version "2.2.0.BUILD-SNAPSHOT"
 	id("org.jetbrains.kotlin.jvm") version kotlinVersion
 	id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
 	id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
@@ -28,6 +28,7 @@ repositories {
 	mavenLocal()
 	mavenCentral()
 	maven("https://repo.spring.io/milestone")
+	maven("https://repo.spring.io/snapshot")
 }
 
 tasks.withType<Test> {
