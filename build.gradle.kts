@@ -19,7 +19,6 @@ tasks.withType<KotlinCompile> {
 }
 
 repositories {
-	mavenLocal()
 	mavenCentral()
 	maven("https://repo.spring.io/milestone")
 	maven("https://repo.spring.io/snapshot")
@@ -31,7 +30,10 @@ tasks.withType<Test> {
 
 dependencies {
 	implementation("org.springframework.data:spring-data-r2dbc:1.0.0.BUILD-SNAPSHOT")
-	implementation("io.r2dbc:r2dbc-postgresql")
+	implementation("io.r2dbc:r2dbc-postgresql") {
+		exclude(module = "reactor-netty")
+	}
+	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.0.0.BUILD-SNAPSHOT")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.springframework.boot:spring-boot-starter-mustache")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -46,4 +48,10 @@ dependencies {
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("com.ninja-squad:springmockk:1.1.2")
+}
+
+dependencyManagement {
+	imports {
+		mavenBom("io.r2dbc:r2dbc-bom:Arabba-BUILD-SNAPSHOT")
+	}
 }
