@@ -10,8 +10,8 @@ class ArticleRepository(private val client: DatabaseClient) {
 
 	fun findBySlug(slug: String) =
 		client.execute()
-				.sql("SELECT * FROM Articles WHERE slug = \$1")
-				.bind(0, slug).asType<Article>()
+				.sql("SELECT * FROM Articles WHERE slug = :slug")
+				.bind("slug", slug).asType<Article>()
 				.fetch().one()
 
 	fun findAllByOrderByAddedAtDesc() =
