@@ -28,7 +28,7 @@ class HttpControllersTests(@Autowired val client: WebTestClient) {
 		}
 		client.get().uri("/api/article/").accept(MediaType.APPLICATION_JSON).exchange()
 				.expectStatus().isOk
-				.expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+				.expectHeader().contentType(MediaType.APPLICATION_JSON)
 				.expectBodyList<Article>()
 				.hasSize(2)
 				.contains(spring5Article)
