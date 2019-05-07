@@ -13,8 +13,8 @@ class ArticleRepository(private val client: DatabaseClient) {
 
 	suspend fun findBySlug(slug: String) =
 		client.execute()
-				.sql("SELECT * FROM articles WHERE slug = \$1")
-				.bind(0, slug).asType<Article>()
+				.sql("SELECT * FROM articles WHERE slug = :slug")
+				.bind("slug", slug).asType<Article>()
 				.fetch().awaitOneOrNull()
 
 	fun findAll() =
