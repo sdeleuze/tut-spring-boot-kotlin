@@ -6,8 +6,9 @@ import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.springframework.boot.WebApplicationType
 import org.springframework.context.ConfigurableApplicationContext
-import org.springframework.fu.kofu.reactiveWebApplication
+import org.springframework.fu.kofu.application
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBodyList
@@ -21,7 +22,7 @@ class HttpControllersTests {
 
 	@BeforeAll
 	fun setup() {
-		val app = reactiveWebApplication {
+		val app = application(WebApplicationType.REACTIVE) {
 			configurationProperties<BlogProperties>("blog")
 			enable(webServerConfig)
 			enable(webClientConfig)
@@ -43,7 +44,7 @@ class HttpControllersTests {
 	fun `List articles`() {
 		client.get().uri("/api/article/").accept(MediaType.APPLICATION_JSON).exchange()
 				.expectStatus().isOk
-				.expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+				.expectHeader().contentType(MediaType.APPLICATION_JSON)
 				.expectBodyList<Article>()
 				.hasSize(2)
 				.contains(spring5Article)

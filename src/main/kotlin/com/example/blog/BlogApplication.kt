@@ -1,10 +1,11 @@
 package com.example.blog
 
 import kotlinx.coroutines.runBlocking
+import org.springframework.boot.WebApplicationType
 import org.springframework.boot.context.event.ApplicationReadyEvent
+import org.springframework.fu.kofu.application
 import org.springframework.fu.kofu.configuration
 import org.springframework.fu.kofu.r2dbc.r2dbcPostgresql
-import org.springframework.fu.kofu.reactiveWebApplication
 import org.springframework.fu.kofu.webflux.mustache
 import org.springframework.fu.kofu.webflux.webClient
 import org.springframework.fu.kofu.webflux.webFlux
@@ -46,7 +47,7 @@ val webClientConfig = configuration {
 	}
 }
 
-val app = reactiveWebApplication {
+val app = application(WebApplicationType.REACTIVE) {
 	configurationProperties<BlogProperties>("blog")
 	enable(dataConfig)
 	enable(webServerConfig)
