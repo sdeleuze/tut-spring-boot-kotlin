@@ -28,14 +28,9 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-configurations.all {
-	resolutionStrategy.cacheChangingModulesFor(0, "seconds")
-}
-
 dependencies {
 	implementation("org.springframework.data:spring-data-r2dbc:1.0.0.BUILD-SNAPSHOT")
-	implementation("io.r2dbc:r2dbc-spi:0.8.0.BUILD-SNAPSHOT")
-	implementation("io.r2dbc:r2dbc-postgresql:0.8.0.BUILD-SNAPSHOT") {
+	implementation("io.r2dbc:r2dbc-postgresql") {
 		exclude(module = "reactor-netty")
 	}
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -55,3 +50,8 @@ dependencies {
 	testImplementation("com.ninja-squad:springmockk:1.1.2")
 }
 
+dependencyManagement {
+	imports {
+		mavenBom("io.r2dbc:r2dbc-bom:Arabba-BUILD-SNAPSHOT")
+	}
+}
