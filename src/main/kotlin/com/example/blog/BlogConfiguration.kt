@@ -6,7 +6,7 @@ import kotlinx.coroutines.runBlocking
 import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.data.r2dbc.function.DatabaseClient
+import org.springframework.data.r2dbc.core.DatabaseClient
 
 @Configuration
 class BlogConfiguration {
