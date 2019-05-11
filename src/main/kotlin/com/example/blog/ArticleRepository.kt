@@ -24,7 +24,7 @@ class ArticleRepository(private val client: DatabaseClient) {
 			client.insert().into<Article>().table("Articles").using(article).then()
 
 	fun deleteAll() =
-			client.execute().sql("DELETE FROM Articles").fetch().one().then()
+			client.execute().sql("DELETE FROM Articles").then()
 
 	fun init() = client.execute().sql("CREATE TABLE IF NOT EXISTS Articles (slug VARCHAR PRIMARY KEY, title VARCHAR, headline VARCHAR, content VARCHAR, author VARCHAR, added_at TIMESTAMP);").then()
 			.then(deleteAll())
